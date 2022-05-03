@@ -20,21 +20,14 @@ namespace highlyMotivatedStudents
             string connectionSettings = $"Data Source={machineName}\\SQLEXPRESS;Initial Catalog={databaseName};Integrated Security=True";
             return connectionSettings;
         }
-        DataTable FillDataGridView(string sqlSelect)
-        {
-            SqlConnection connection = new SqlConnection(GetSettings());
-            SqlCommand command = connection.CreateCommand();
-            command.CommandText = sqlSelect;
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            adapter.SelectCommand = command;
-            DataTable table = new DataTable();
-            adapter.Fill(table);
-            return table;
-        }
-
 
         private void MainMenuLoad(object sender, EventArgs e)
         {
+            /* Запрет добавления и удаления */
+            //dataGridView.AllowUserToAddRows = false;
+            //dataGridView.AllowUserToDeleteRows = false;
+            //dataGridView.ReadOnly = true;
+
             load();
         }
 
@@ -120,13 +113,22 @@ namespace highlyMotivatedStudents
         public void load()
         {
             DataLoad dataLoad = new DataLoad();
+
+            /*students table*/
             List<object> studentId = dataLoad.GetValue("students", 0);
             List<object> studentFIO = dataLoad.GetValue("students", 1);
             List<object> yearOfStudy = dataLoad.GetValue("students", 2);
             List<object> specialEducation = dataLoad.GetValue("students", 3);
-
             List<object> programId = dataLoad.GetValue("students", 4);
-            List<object> learningPrograms = dataLoad.GetValue("learning_program", 1);
+
+            /*learning program table*/
+            List<object> learningProgramsIds = dataLoad.GetValue("learning_program", 0);
+            List<object> learningProgramsNames = dataLoad.GetValue("learning_program", 1);
+
+            /* orientation of giftedness */
+            List<object> giftnessId = dataLoad.GetValue("orientation_of_giftedness", 0);
+            List<object> gifnessName = dataLoad.GetValue("orientation_of_giftedness", 1);
+
             //string[] learningProgram = new string[studentId.Length];
             //for (int i = 0; i < studentId.Length; i++)
             //    learningProgram[i] = GetValueSolo("learning_program", "program_id", programId[i], 1);
